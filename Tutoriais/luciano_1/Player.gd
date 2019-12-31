@@ -11,6 +11,7 @@ func _ready():
 
 func _process(delta):
 	var velocidade  = Vector2()
+	#self.transform.rotated(0)
 	if Input.is_action_pressed("ui_right"):
 		velocidade.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -30,17 +31,20 @@ func _process(delta):
 	position.y = clamp(position.y, 0, tamanho_janela.y)
 	
 	if velocidade.x != 0:
-		$AnimatedSprite.animation = "right"
 		$AnimatedSprite.flip_v = velocidade.y > 0
 		$AnimatedSprite.flip_h = velocidade.x < 0
 		if velocidade.y != 0:
 			$AnimatedSprite.animation = "up"
-			self.rotate(PI/4 * (1 if velocidade.x > 0 else -1) )
+			self.rotation_degrees = 45 * (1 if velocidade.x > 0 else -1) * (1 if velocidade.y < 0 else -1)
+		else:
+			self.rotation_degrees = 0
+			$AnimatedSprite.animation = "right"
 
 	elif velocidade.y != 0:
 		$AnimatedSprite.animation = "up"
 		$AnimatedSprite.flip_v = velocidade.y > 0
-		
+		self.rotation_degrees = 0
+
 	
 
 func _on_Player_body_entered(body):
