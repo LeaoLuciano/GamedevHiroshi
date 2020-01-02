@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Main.gd" type="Script" id=1]
+[ext_resource path="res://Plataforma.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Bola.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pulo.tscn" type="PackedScene" id=4]
+
+[sub_resource type="PhysicsMaterial" id=2]
+friction = 0.0
+bounce = -1.0
+absorbent = true
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+bounce = 10.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Plataforma" parent="." instance=ExtResource( 2 )]
+position = Vector2( 188.297, 596.685 )
+scale = Vector2( 0.6, 0.15 )
+physics_material_override = SubResource( 2 )
+
+[node name="Bola" parent="." instance=ExtResource( 3 )]
+position = Vector2( 38.9851, 558.646 )
+physics_material_override = SubResource( 1 )
+gravity_scale = 2.0
+linear_velocity = Vector2( 200, 0 )
+
+[node name="Pulo" parent="." instance=ExtResource( 4 )]
+position = Vector2( 456.478, 599.338 )
+physics_material_override = SubResource( 3 )
+gravity_scale = 0.0
+Forca = 2000
+Constante_Elastica = 30
+
+[node name="Plataforma2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 637.088, 465.075 )
+
+[node name="Plataforma3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 810.911, 413.406 )
+[connection signal="input_event" from="Bola" to="." method="_on_Bola_input_event"]
