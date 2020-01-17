@@ -26,7 +26,7 @@ func _process(delta):
 	if final == 1:
 		tempo += delta
 	
-	if (final != 1 and self.position.y <= 0) or tempo < 1:
+	if (final != 1 and self.position.y - inicial <= 0) or tempo < 1:
 		if Input.is_action_pressed("ui_accept"):
 			clicou = 1
 			final = 1

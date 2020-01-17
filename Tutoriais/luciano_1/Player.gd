@@ -1,25 +1,38 @@
+tool
 extends Area2D
 
 signal colidiu #sinal de colisão
 export var rapidez = 400 #módulo da velocidade
 var tamanho_janela 
+var alvo = Vector2()
 
 
 func _ready():
 	tamanho_janela = get_viewport_rect().size
 	hide()
 
+
+func _input(event):
+	if event is InputEventScreenTouch and event.pressed:
+		alvo = event.position
+
 func _process(delta):
 	var velocidade  = Vector2()
-	#self.transform.rotated(0)
-	if Input.is_action_pressed("ui_right"):
-		velocidade.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocidade.x -= 1
-	if Input.is_action_pressed("ui_up"):
-		velocidade.y -= 1
-	if Input.is_action_pressed("ui_down"):
-		velocidade.y += 1
+	self.transform.rotated(0)
+	
+	if position.distance_to(alvo) > 10:
+		velocidade = (alvo - position).normalized() * rapidez
+	
+#	if Input.is_action_pressed("ui_right"):
+#		velocidade.x += 1
+#	if Input.is_action_pressed("ui_left"):
+#		velocidade.x -= 1
+#	if Input.is_action_pressed("ui_up"):
+#		velocidade.y -= 1
+#	if Input.is_action_pressed("ui_down"):
+#		velocidade.y += 1
+
+
 	if velocidade.length() > 0:
 		velocidade = velocidade.normalized() * rapidez
 		$AnimatedSprite.play()
@@ -54,5 +67,7 @@ func _on_Player_body_entered(body):
 	
 func start(pos):
 	position = pos
+	alvo = pos
 	show()
 	$CollisionShape2D.disabled = false
+	
